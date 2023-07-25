@@ -264,12 +264,23 @@ class HuggingFaceDeepMindGenerator(Generator):
             repo_id="InstaDeepAI/boxoban-levels", filename=f"{dataset_name}.npy"
         )
         with open(dataset_file, "rb") as f:
-            dataset = np.load(f)
+            self.dataset = np.load(f)
 
-        # Convert to jax arrays and resize using proportion_of_files
-        length = int(proportion_of_files * dataset.shape[0])
-        self._fixed_grids = jnp.asarray(dataset[:length, ..., 0], jnp.uint8)
-        self._variable_grids = jnp.asarray(dataset[:length, ..., 1], jnp.uint8)
+        #Transfer a fraction of the problems to the TPU
+        self.sample_dataset(proportion_of_files)
+
+    def sample_dataset(self, proportion_of_files):
+        # Calculate the number of samples needed
+        num_samples = int(proportion_of_files * self.dataset.shape[0])
+
+        # Generate a random choice of indices
+        indices = np.random.choice(self.dataset.shape[0], num_samples,
+                                   replace=False)
+
+        # Index into the original dataset with the chosen indices
+        sampled_dataset = self.dataset[indices]
+        self._fixed_grids = jnp.asarray(sampled_dataset[..., 0], jnp.uint8)
+        self._variable_grids = jnp.asarray(sampled_dataset[..., 1], jnp.uint8)
 
     def __call__(self, rng_key: chex.PRNGKey) -> State:
         """Generate a random Boxoban problem from the Deepmind dataset.

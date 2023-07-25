@@ -59,6 +59,7 @@ class BoxViewer(Viewer):
             "box_on_target",
         ]
 
+        #Is this actually the right way to call the image locations?
         def get_image(image_name: str) -> Image.Image:
             img_path = pkg_resources.resource_filename(
                 "jumanji", f"environments/routing/sokoban/imgs/{image_name}.png"
