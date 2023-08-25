@@ -5,3 +5,4 @@ recursive-include * *.npy
 # remove the test specific files
 recursive-exclude * *_test.py
 recursive-exclude * conftest.py
+recursive-include imgs *
