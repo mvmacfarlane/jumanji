@@ -5,5 +5,5 @@ recursive-include * *.npy
 # remove the test specific files
 recursive-exclude * *_test.py
 recursive-exclude * conftest.py
-recursive-include environments/routing/sokoban/imgs *
+recursive-include jumanji/environments/routing/sokoban/imgs *
 
