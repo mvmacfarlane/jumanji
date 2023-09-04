@@ -266,8 +266,8 @@ class HuggingFaceDeepMindGenerator(Generator):
         with open(dataset_file, "rb") as f:
             self.dataset = np.load(f)
 
-        #Transfer a fraction of the problems to the TPU
-        self.sample_dataset(proportion_of_files)
+        self._fixed_grids = jnp.asarray(self.dataset[..., 0], jnp.uint8)
+        self._variable_grids = jnp.asarray(self.dataset[..., 1], jnp.uint8)
 
     def sample_dataset(self, proportion_of_files):
         # Calculate the number of samples needed
