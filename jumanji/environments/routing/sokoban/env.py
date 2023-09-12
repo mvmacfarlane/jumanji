@@ -225,20 +225,23 @@ class Sokoban(Environment[State]):
             lambda: self.move_agent(state.variable_grid, action, state.agent_location),
         )
 
+        target_reached = self.level_complete(next_state)
+        time_limit_exceeded = next_state.step_count >= self.time_limit
+
+        done = jnp.logical_or(
+            target_reached,
+            time_limit_exceeded,
+            state.done,
+        )
+
         next_state = State(
             key=state.key,
             fixed_grid=state.fixed_grid,
             variable_grid=next_variable_grid,
             agent_location=next_agent_location,
             step_count=state.step_count + 1,
+            done=done,
         )
-
-        target_reached = self.level_complete(next_state)
-        time_limit_exceeded = next_state.step_count >= self.time_limit
-
-        #done = target_reached | time_limit_exceeded
-        done = jnp.logical_or(target_reached, time_limit_exceeded)
-
 
         reward = jnp.asarray(self.reward_fn(state, action, next_state), float)
 

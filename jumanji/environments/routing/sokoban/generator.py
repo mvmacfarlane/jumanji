@@ -156,6 +156,7 @@ class DeepMindGenerator(Generator):
             variable_grid=variable_grid,
             agent_location=initial_agent_location,
             step_count=jnp.array(0, jnp.int32),
+            done=jnp.array(False),
         )
 
         return state
@@ -310,6 +311,7 @@ class HuggingFaceDeepMindGenerator(Generator):
             variable_grid=variable_grid,
             agent_location=initial_agent_location,
             step_count=jnp.array(0, jnp.int32),
+            done=jnp.array(False),
         )
 
         return state
@@ -381,6 +383,7 @@ class ToyGenerator(Generator):
             variable_grid=games_variable[game_index],
             agent_location=initial_agent_location,
             step_count=jnp.array(0, jnp.int32),
+            done=jnp.array(False),
         )
 
         return state
@@ -427,6 +430,7 @@ class SimpleSolveGenerator(Generator):
             variable_grid=game_variable,
             agent_location=initial_agent_location,
             step_count=jnp.array(0, jnp.int32),
+            done=jnp.array(False),
         )
 
         return state

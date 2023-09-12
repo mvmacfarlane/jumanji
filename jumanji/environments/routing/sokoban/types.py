@@ -39,6 +39,7 @@ class State:
     variable_grid: chex.Array
     agent_location: chex.Array
     step_count: chex.Array
+    done: chex.Array
 
 
 class Observation(NamedTuple):
