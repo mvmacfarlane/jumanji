@@ -238,9 +238,12 @@ class Sokoban(Environment[State]):
 
         time_limit_exceeded = state.step_count + 1 >= self.time_limit
 
-        done = jnp.logical_or(
-            target_reached,
-            time_limit_exceeded,
+        done =  jnp.logical_or(
+            jnp.logical_or(
+                target_reached,
+                time_limit_exceeded,
+                state.done,
+            ),
             state.done,
         )
 
