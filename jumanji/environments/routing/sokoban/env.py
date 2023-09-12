@@ -264,7 +264,7 @@ class Sokoban(Environment[State]):
         timestep = jax.lax.cond(
             done,
             lambda: termination(
-                reward=reward,
+                reward=reward * (1-state.done.astype(jnp.int32)),
                 observation=observation,
                 extras=extras,
             ),
