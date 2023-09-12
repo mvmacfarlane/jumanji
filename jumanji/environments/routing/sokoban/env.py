@@ -242,7 +242,6 @@ class Sokoban(Environment[State]):
             jnp.logical_or(
                 target_reached,
                 time_limit_exceeded,
-                state.done,
             ),
             state.done,
         )
